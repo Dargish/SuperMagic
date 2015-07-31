@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <SMOG/DataTypes/RGB.h>
 
 
 SMOG_NAMESPACE_ENTER

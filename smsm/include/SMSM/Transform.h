@@ -5,25 +5,14 @@
 
 SMSM_NAMESPACE_ENTER
 {
-	class SMSMAPI Transform
+	struct SMSMAPI Transform
 	{
-	public:
+		Vector3 position;
+		Quaternion rotation;
+		Vector3 scale;
+
 		Transform();
-		
-		Vector3& position();
-		const Vector3& position() const;
 
-		Quaternion& rotation();
-		const Quaternion& rotation() const;
-
-		Vector3& scale();
-		const Vector3& scale() const;
-
-		void setWorldMatrix(Matrix4& worldMatrix);
-
-	private:
-		Vector3 m_position;
-		Quaternion m_rotation;
-		Vector3 m_scale;
+		Matrix4 worldMatrix() const;
 	};
 }

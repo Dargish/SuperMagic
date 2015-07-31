@@ -28,3 +28,10 @@
 #define SMSM_NAMESPACE_ENTER namespace SMSM_NAMESPACE
 
 #include <SMSM/DataTypes.h>
+
+#define SMSM_TYPENAME(NAME) \
+	static constexpr char const* TYPE_NAME = #NAME; \
+	virtual std::string typeName() const \
+	{ \
+		return NAME::TYPE_NAME; \
+	}

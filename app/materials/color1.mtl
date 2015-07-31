@@ -1,0 +1,15 @@
+
+{
+	"fragment_shader" : "install/share/shaders/color.frag",
+	"values" : 
+	{
+		"color" : 
+		{
+			"b" : 0.0,
+			"g" : 0.0,
+			"r" : 1.0,
+			"type" : "rgb"
+		}
+	},
+	"vertex_shader" : "install/share/shaders/color.vert"
+}

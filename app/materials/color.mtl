@@ -1,0 +1,4 @@
+{
+	"vertex_shader": "install/share/shaders/color.vert",
+	"fragment_shader": "install/share/shaders/color.frag"
+}

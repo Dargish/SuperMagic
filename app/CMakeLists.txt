@@ -18,3 +18,4 @@ set_target_properties(smog_app PROPERTIES OUTPUT_NAME smog_app)
 
 install(TARGETS smog_app RUNTIME DESTINATION bin)
 install(DIRECTORY shaders DESTINATION share)
+install(DIRECTORY materials DESTINATION share)

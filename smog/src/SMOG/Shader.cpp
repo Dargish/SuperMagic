@@ -10,17 +10,21 @@
 
 SMOG_NAMESPACE_ENTER
 {
-	Shader::Shader(const std::string& filePath, Type type) :
+	Shader::Shader(const std::string& filename, Type type) :
 		m_shader(0), m_type(type)
 	{
-		std::ifstream in(filePath);
+		std::ifstream in(filename);
+		if (!in.is_open())
+		{
+			throw std::runtime_error("Failed to load shader " + filename);
+		}
 		std::stringstream buf;
 		buf << in.rdbuf();
 		std::string shaderText = buf.str();
 
 		if (shaderText.empty())
 		{
-			throw std::runtime_error("Failed to load shader " + filePath);
+			throw std::runtime_error("Failed to load shader " + filename);
 		}
 
 		switch(m_type)

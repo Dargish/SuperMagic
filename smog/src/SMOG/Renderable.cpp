@@ -6,14 +6,4 @@ SMOG_NAMESPACE_ENTER
 	{
 		
 	}
-
-	Matrix4& Renderable::worldMatrix()
-	{
-		return m_worldMatrix;
-	}
-	
-	const Matrix4& Renderable::worldMatrix() const
-	{
-		return m_worldMatrix;
-	}
 }

@@ -16,7 +16,7 @@ SMOG_NAMESPACE_ENTER
 			kFragment
 		};
 
-		Shader(const std::string& filePath, Type type);
+		Shader(const std::string& filename, Type type);
 
 		uint shader() const;
 

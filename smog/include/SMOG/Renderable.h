@@ -10,11 +10,5 @@ SMOG_NAMESPACE_ENTER
 		virtual ~Renderable();
 		
 		virtual void draw() const = 0;
-
-		Matrix4& worldMatrix();
-		const Matrix4& worldMatrix() const;
-
-	private:
-		Matrix4 m_worldMatrix;
 	};
 }
