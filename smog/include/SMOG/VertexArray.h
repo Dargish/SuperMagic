@@ -3,6 +3,8 @@
 #include <SMOG/SMOG.h>
 #include <SMOG/VertexBuffer.h>
 
+#include <vector>
+
 
 SMOG_NAMESPACE_ENTER
 {
@@ -10,6 +12,7 @@ SMOG_NAMESPACE_ENTER
 	{
 	public:
 		VertexArray();
+		~VertexArray();
 
 		uint vao() const;
 
@@ -34,6 +37,7 @@ SMOG_NAMESPACE_ENTER
 
 	private:
 		uint m_vao;
+		std::vector<uint> m_vbos;
 		uint m_count;
 	};
 

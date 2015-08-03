@@ -11,6 +11,12 @@ SMOG_NAMESPACE_ENTER
 		glGenVertexArrays(1, &m_vao);
 	}
 
+	VertexArray::~VertexArray()
+	{
+		glDeleteVertexArrays(1, &m_vao);
+		glDeleteBuffers(m_vbos.size(), &m_vbos.front());
+	}
+
 	uint VertexArray::vao() const
 	{
 		return m_vao;
@@ -44,5 +50,6 @@ SMOG_NAMESPACE_ENTER
 			stride,
 			offset);
 		++m_count;
+		m_vbos.push_back(buffer.buffer());
 	}
 }

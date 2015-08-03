@@ -4,6 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <stdexcept>
+#include <iostream>
 
 
 SMOG_NAMESPACE_ENTER
@@ -36,7 +37,7 @@ SMOG_NAMESPACE_ENTER
 	{
 		if (m_linked)
 		{
-			throw std::runtime_error("Cannot add shader to program that has already been linked");
+			ERROR("Cannot add shader to program that has already been linked");
 		}
 		glAttachShader(program(), shader.shader());
 	}
@@ -45,7 +46,7 @@ SMOG_NAMESPACE_ENTER
 	{
 		if (m_linked)
 		{
-			throw std::runtime_error("Shader program has already been linked");
+			ERROR("Shader program has already been linked");
 		}
 		glLinkProgram(program());
 		m_linked = true;
@@ -55,7 +56,7 @@ SMOG_NAMESPACE_ENTER
 	{
 		if (!m_linked)
 		{
-			throw std::runtime_error("Shader program must be linked before use");
+			ERROR("Shader program must be linked before use");
 		}
 		glUseProgram(m_program);
 	}
@@ -64,7 +65,7 @@ SMOG_NAMESPACE_ENTER
 	{
 		if (!m_linked)
 		{
-			throw std::runtime_error("Shader program must be linked before setting values");
+			ERROR("Shader program must be linked before setting values");
 		}
 		int loc = glGetUniformLocation(m_program, name.c_str());
 		if (loc > -1)
@@ -77,7 +78,7 @@ SMOG_NAMESPACE_ENTER
 	{
 		if (!m_linked)
 		{
-			throw std::runtime_error("Shader program must be linked before setting values");
+			ERROR("Shader program must be linked before setting values");
 		}
 		int loc = glGetUniformLocation(m_program, name.c_str());
 		if (loc > -1)
@@ -90,12 +91,28 @@ SMOG_NAMESPACE_ENTER
 	{
 		if (!m_linked)
 		{
-			throw std::runtime_error("Shader program must be linked before setting values");
+			ERROR("Shader program must be linked before setting values");
 		}
 		int loc = glGetUniformLocation(m_program, name.c_str());
 		if (loc > -1)
 		{
 			glUniformMatrix4fv(loc, 1, false, glm::value_ptr(value));
 		}		
+	}
+
+	void ShaderProgram::set(const std::string& name, const Texture& texture, int textureUnit /*= 0*/) const
+	{
+		if (!m_linked)
+		{
+			ERROR("Shader program must be linked before setting values");
+		}
+		int loc = glGetUniformLocation(m_program, name.c_str());
+		if (loc > -1)
+		{
+			std::cerr << "Binding texture to unit " << textureUnit << std::endl;
+			glActiveTexture(GL_TEXTURE0 + textureUnit);
+			texture.bind();
+			glUniform1i(loc, textureUnit);
+		}
 	}
 }

@@ -3,6 +3,8 @@
 #include <SMOG/Viewport.h>
 #include <SMOG/Shader.h>
 #include <SMOG/ShaderProgram.h>
+#include <SMOG/Texture.h>
+#include <SMOG/TextureCache.h>
 #include <SMOG/Material.h>
 #include <SMOG/RenderScene.h>
 #include <SMOG/Primitives/Triangle.h>
@@ -20,6 +22,8 @@
 #include <memory>
 #include <sstream>
 #include <iostream>
+#include <stdexcept>
+
 
 SMOG_NAMESPACE_USING
 SMSM_NAMESPACE_USING
@@ -47,6 +51,25 @@ struct RenderableComponent : public Renderable, public Component
 	Material material;
 };
 
+class SFML_TextureLoader : public TextureLoader
+{
+public:
+	virtual bool load(Texture& texture) const
+	{
+		sf::Image image;
+		if (!image.loadFromFile(texture.filename()))
+		{
+			return false;
+		}
+		sf::Vector2u imageSize = image.getSize();
+		texture.setSize(imageSize.x, imageSize.y);
+		texture.setChannels(4);
+		texture.setData(image.getPixelsPtr());
+		std::cerr << "Texture loaded from " << texture.filename() << " (" << imageSize.x << ", " << imageSize.y << ")" << std::endl;
+		return true;
+	}
+};
+
 int main()
 {
 	sf::ContextSettings settings;
@@ -72,6 +95,8 @@ int main()
 
 	sf::Vector2u windowSize = window.getSize();
 	Viewport viewport(windowSize.x, windowSize.y);
+
+	TextureCache::RegisterLoader<SFML_TextureLoader>();
 
 	Scene scene;
 
@@ -133,6 +158,10 @@ int main()
 		}
 
 		window.display();
+
+#if 0
+		checkGLErrors();
+#endif
 	}
 
 	return 0;

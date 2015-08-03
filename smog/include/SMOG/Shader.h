@@ -2,7 +2,6 @@
 
 #include <SMOG/SMOG.h>
 
-#include <string>
 
 SMOG_NAMESPACE_ENTER
 {

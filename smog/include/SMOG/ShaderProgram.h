@@ -2,6 +2,9 @@
 
 #include <SMOG/SMOG.h>
 #include <SMOG/Shader.h>
+#include <SMOG/Texture.h>
+
+#include <deque>
 
 
 SMOG_NAMESPACE_ENTER
@@ -24,6 +27,7 @@ SMOG_NAMESPACE_ENTER
 		void set(const std::string& name, float value) const;
 		void set(const std::string& name, const RGB& value) const;
 		void set(const std::string& name, const Matrix4& value) const;
+		void set(const std::string& name, const Texture& texture, int textureUnit = 0) const;
 
 	private:
 		bool m_linked;

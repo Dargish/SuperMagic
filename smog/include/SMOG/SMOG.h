@@ -28,8 +28,17 @@
 #define SMOG_NAMESPACE_ENTER namespace SMOG_NAMESPACE
 
 #include <SMOG/DataTypes.h>
+#include <stdexcept>
 
 SMOG_NAMESPACE_ENTER
 {
 	void initialiseGlew();
+
+	void checkGLErrors();
+
+	void printBacktrace();
+
+	#define ERROR(MESSAGE) \
+	printBacktrace(); \
+	throw std::runtime_error(MESSAGE);
 }

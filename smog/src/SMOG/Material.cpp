@@ -1,4 +1,5 @@
 #include <SMOG/Material.h>
+#include <SMOG/TextureCache.h>
 
 #include <json/json.h>
 #include <fstream>
@@ -16,8 +17,10 @@ SMOG_NAMESPACE_ENTER
 				return "float";
 			case kRGB:
 				return "rgb";
+			case kTexture:
+				return "texture";
 			default:
-				throw std::runtime_error("Unrecognised MaterialValue::Type");
+				ERROR("Unrecognised MaterialValue::Type");
 		}
 	}
 
@@ -38,7 +41,7 @@ SMOG_NAMESPACE_ENTER
 		std::ifstream in(filename);
 		if (!in.is_open())
 		{
-			throw std::runtime_error("Failed to load material " + filename);
+			ERROR("Failed to load material " + filename);
 		}
 		Json::Value material;
 		in >> material;
@@ -75,7 +78,7 @@ SMOG_NAMESPACE_ENTER
 			{
 				set(*it, value["value"].asFloat());
 			}
-			if (type == "rgb")
+			else if (type == "rgb")
 			{
 				RGB rgb;
 				rgb.r = value["r"].asFloat();
@@ -83,7 +86,12 @@ SMOG_NAMESPACE_ENTER
 				rgb.b = value["b"].asFloat();
 				set(*it, rgb);
 			}
+			else if (type == "texture")
+			{
+				set(*it, TextureCache::Load(value["filename"].asString()));
+			}
 		}
+		apply();
 	}
 
 	void Material::save(const std::string& filename) const
@@ -108,6 +116,10 @@ SMOG_NAMESPACE_ENTER
 					value["r"] = rgb.r;
 					value["g"] = rgb.g;
 					value["b"] = rgb.b;
+					break;
+				case MaterialValue::kTexture:
+					value["type"] = "texture";
+					value["filename"] = it->second->as<Texture>()->value.filename();
 					break;
 				default:
 					break;
@@ -145,15 +157,38 @@ SMOG_NAMESPACE_ENTER
 	void Material::set(const std::string& name, float value)
 	{
 		m_valueMap[name] = std::unique_ptr<MaterialValue>(new TypedMaterialValue<float>(value));
-		m_program.use();
-		m_program.set(name, value);
 	}
 
 	void Material::set(const std::string& name, const RGB& value)
 	{
 		m_valueMap[name] = std::unique_ptr<MaterialValue>(new TypedMaterialValue<RGB>(value));
+	}
+
+	void Material::set(const std::string& name, const Texture& texture)
+	{
+		m_valueMap[name] = std::unique_ptr<MaterialValue>(new TypedMaterialValue<Texture>(texture));
+	}
+
+	void Material::apply() const
+	{
 		m_program.use();
-		m_program.set(name, value);
+		for (ValueMap::const_iterator it = m_valueMap.begin(); it != m_valueMap.end(); ++it)
+		{
+			switch(it->second->type())
+			{
+				case MaterialValue::kFloat:
+					m_program.set(it->first, it->second->as<float>()->value);
+					break;
+				case MaterialValue::kRGB:
+					m_program.set(it->first, it->second->as<RGB>()->value);
+					break;
+				case MaterialValue::kTexture:
+					m_program.set(it->first, it->second->as<Texture>()->value);
+					break;
+				default:
+					break;
+			}
+		}
 	}
 
 	void Material::tryCompileProgram()

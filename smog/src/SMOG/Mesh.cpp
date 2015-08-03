@@ -13,16 +13,6 @@ SMOG_NAMESPACE_ENTER
 		
 	}
 
-	VertexBuffer& Mesh::vbo()
-	{
-		return m_vertexBuffer;
-	}
-
-	const VertexBuffer& Mesh::vbo() const
-	{
-		return m_vertexBuffer;
-	}
-
 	VertexArray& Mesh::vao()
 	{
 		return m_vertexArray;

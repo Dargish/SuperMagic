@@ -2,6 +2,7 @@
 
 #include <SMOG/SMOG.h>
 #include <SMOG/ShaderProgram.h>
+#include <SMOG/Texture.h>
 
 #include <map>
 #include <memory>
@@ -18,7 +19,8 @@ SMOG_NAMESPACE_ENTER
 		{
 			kInvalid = 0,
 			kFloat,
-			kRGB
+			kRGB,
+			kTexture
 		};
 
 		static std::string typeName(Type type);
@@ -69,6 +71,12 @@ SMOG_NAMESPACE_ENTER
 		return kRGB;
 	}
 
+	template<>
+	MaterialValue::Type TypedMaterialValue<Texture>::type() const
+	{
+		return kTexture;
+	}
+
 
 	class SMOGAPI Material
 	{
@@ -88,6 +96,9 @@ SMOG_NAMESPACE_ENTER
 
 		void set(const std::string& name, float value);
 		void set(const std::string& name, const RGB& value);
+		void set(const std::string& name, const Texture& texture);
+
+		void apply() const;
 
 	private:
 		void tryCompileProgram();

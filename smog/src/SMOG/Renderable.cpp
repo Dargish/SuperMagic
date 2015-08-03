@@ -2,6 +2,11 @@
 
 SMOG_NAMESPACE_ENTER
 {
+	Renderable::Renderable()
+	{
+		
+	}
+
 	Renderable::~Renderable()
 	{
 		

@@ -16,7 +16,7 @@ SMOG_NAMESPACE_ENTER
 		std::ifstream in(filename);
 		if (!in.is_open())
 		{
-			throw std::runtime_error("Failed to load shader " + filename);
+			ERROR("Failed to load shader " + filename);
 		}
 		std::stringstream buf;
 		buf << in.rdbuf();
@@ -24,7 +24,7 @@ SMOG_NAMESPACE_ENTER
 
 		if (shaderText.empty())
 		{
-			throw std::runtime_error("Failed to load shader " + filename);
+			ERROR("Failed to load shader " + filename);
 		}
 
 		switch(m_type)
@@ -36,7 +36,7 @@ SMOG_NAMESPACE_ENTER
 				m_shader = glCreateShader (GL_FRAGMENT_SHADER);
 				break;
 			default:
-				throw std::runtime_error("Unknown shader type");
+				ERROR("Unknown shader type");
 		}
 
 		const char* shaderTextPtr = shaderText.c_str();
@@ -58,7 +58,7 @@ SMOG_NAMESPACE_ENTER
 			src.resize(srcLength);
 			glGetShaderSource(m_shader, srcLength, &srcLength, (GLchar*)src.c_str());
 			std::cerr << src << "\n" << log << std::endl;
-			throw std::runtime_error("Error compiling shader");
+			ERROR("Error compiling shader");
 		}
 	}
 
