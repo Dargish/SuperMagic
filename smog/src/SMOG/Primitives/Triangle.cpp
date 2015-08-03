@@ -1,27 +1,30 @@
 #include <SMOG/Primitives/Triangle.h>
 
 #include <GL/glew.h>
+#include <vector>
+
 
 SMOG_NAMESPACE_ENTER
 {
 	Triangle::Triangle()
 	{
-		float points[] = {
+		std::vector<float> positions = {
 			 0.0f,  0.5f,  0.0f,
 			 0.5f, -0.5f,  0.0f,
 			-0.5f, -0.5f,  0.0f
 		};
-		glBindBuffer(GL_ARRAY_BUFFER, vbo());
-		glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), points, GL_STATIC_DRAW);
-		glBindVertexArray(vao());
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo());
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+		std::vector<float> uvs = {
+			 0.5f,  1.0f,
+			 1.0f,  0.0f,
+			 0.0f,  0.0f
+		};
+		vao().addBuffer(positions, 3);
+		vao().addBuffer(uvs, 2);
 	}
 
 	void Triangle::draw() const
 	{
-		glBindVertexArray(vao());
+		vao().bind();
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 	}
 }

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SMOG/Renderable.h>
+#include <SMOG/VertexBuffer.h>
+#include <SMOG/VertexArray.h>
 
 
 SMOG_NAMESPACE_ENTER
@@ -11,13 +13,14 @@ SMOG_NAMESPACE_ENTER
 		Mesh();
 		virtual ~Mesh();
 
-		uint vbo();
-		uint vbo() const;
+		VertexBuffer& vbo();
+		const VertexBuffer& vbo() const;
 		
-		uint vao();
-		uint vao() const;
+		VertexArray& vao();
+		const VertexArray& vao() const;
 
 	private:
-		uint m_vbo, m_vao;
+		VertexBuffer m_vertexBuffer;
+		VertexArray m_vertexArray;
 	};
 }

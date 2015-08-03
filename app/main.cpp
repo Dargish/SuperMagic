@@ -80,6 +80,9 @@ int main()
 		SceneObject& sceneObject = scene.createSceneObject();
 		RenderableComponent& rendComp = sceneObject.createComponent<RenderableComponent>();
 		rendComp.renderable.reset(new Triangle);
+#if 1
+		rendComp.material = Material::Load("install/share/materials/textured.mtl");
+#else
 		std::stringstream ss;
 		ss << "install/share/materials/color" << i << ".mtl";
 #if 1
@@ -91,6 +94,7 @@ int main()
 			(i == 0 || i == 2) ? 1.0f : 0.0f,
 			(i == 0 || i == 3) ? 1.0f : 0.0f));
 		rendComp.material.save(ss.str());
+#endif
 #endif
 		sceneObject.transform().position = Vector3(
 			(i % 2) ? 0.5f : -0.5f,
