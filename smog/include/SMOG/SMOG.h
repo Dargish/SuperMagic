@@ -38,7 +38,19 @@ SMOG_NAMESPACE_ENTER
 
 	void printBacktrace();
 
+	void printError(const std::string& message);
+
+	void printWarning(const std::string& message);
+
+	void printNotice(const std::string& message);
+
 	#define ERROR(MESSAGE) \
-	printBacktrace(); \
+	printError(MESSAGE); \
 	throw std::runtime_error(MESSAGE);
+
+	#define WARN(MESSAGE) \
+	printWarning(MESSAGE);
+
+	#define NOTICE(MESSAGE) \
+	printNotice(MESSAGE);
 }

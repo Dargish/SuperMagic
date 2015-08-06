@@ -69,4 +69,21 @@ SMOG_NAMESPACE_ENTER
 		std::cerr << "Back Trace:" << std::endl;
 		backtrace_symbols_fd(array, size, STDERR_FILENO);
 	}
+
+	void printError(const std::string& message)
+	{
+		printBacktrace();
+		std::cerr << "SMOG::Error: " << message << std::endl;
+	}
+
+	void printWarning(const std::string& message)
+	{
+		printBacktrace();
+		std::cerr << "SMOG::Warning: " << message << std::endl;
+	}
+
+	void printNotice(const std::string& message)
+	{
+		std::cerr << "SMOG::Notice: " << message << std::endl;
+	}
 }

@@ -65,7 +65,6 @@ public:
 		texture.setSize(imageSize.x, imageSize.y);
 		texture.setChannels(4);
 		texture.setData(image.getPixelsPtr());
-		std::cerr << "Texture loaded from " << texture.filename() << " (" << imageSize.x << ", " << imageSize.y << ")" << std::endl;
 		return true;
 	}
 };

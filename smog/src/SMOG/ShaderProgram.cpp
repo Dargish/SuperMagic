@@ -3,8 +3,6 @@
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <iostream>
-
 
 SMOG_NAMESPACE_ENTER
 {
@@ -108,7 +106,6 @@ SMOG_NAMESPACE_ENTER
 		int loc = glGetUniformLocation(m_program, name.c_str());
 		if (loc > -1)
 		{
-			std::cerr << "Binding texture to unit " << textureUnit << std::endl;
 			glActiveTexture(GL_TEXTURE0 + textureUnit);
 			texture.bind();
 			glUniform1i(loc, textureUnit);

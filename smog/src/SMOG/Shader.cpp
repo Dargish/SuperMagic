@@ -4,7 +4,6 @@
 
 #include <fstream>
 #include <sstream>
-#include <iostream>
 
 
 SMOG_NAMESPACE_ENTER
@@ -67,7 +66,8 @@ SMOG_NAMESPACE_ENTER
 			std::string src;
 			src.resize(srcLength);
 			glGetShaderSource(m_shader, srcLength, &srcLength, (GLchar*)src.c_str());
-			std::cerr << src << "\n" << log << std::endl;
+			NOTICE(src);
+			NOTICE(log);
 			ERROR("Error compiling shader");
 		}
 	}

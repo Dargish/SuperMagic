@@ -4,7 +4,6 @@
 
 #include <json/json.h>
 #include <fstream>
-#include <iostream>
 
 
 SMOG_NAMESPACE_ENTER
@@ -56,7 +55,7 @@ SMOG_NAMESPACE_ENTER
 		}
 		else
 		{
-			std::cerr << "Warning: Failed to find vertex shader in material " << filename << std::endl;
+			WARN("Warning: Failed to find vertex shader in material " + filename);
 		}
 		if (!fragment_shader.isNull())
 		{
@@ -64,7 +63,7 @@ SMOG_NAMESPACE_ENTER
 		}
 		else
 		{
-			std::cerr << "Warning: Failed to find fragment shader in material " << filename << std::endl;
+			WARN("Warning: Failed to find fragment shader in material " + filename);
 		}
 		tryCompileProgram();
 
