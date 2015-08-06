@@ -5,13 +5,23 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <stdexcept>
 
 
 SMOG_NAMESPACE_ENTER
 {
+	Shader::Shader(Type type /*= kInvalid*/) :
+		m_shader(0), m_type(type)
+	{
+
+	}
+
 	Shader::Shader(const std::string& filename, Type type) :
 		m_shader(0), m_type(type)
+	{
+		load(filename);
+	}
+
+	void Shader::load(const std::string& filename)
 	{
 		std::ifstream in(filename);
 		if (!in.is_open())
@@ -30,10 +40,10 @@ SMOG_NAMESPACE_ENTER
 		switch(m_type)
 		{
 			case kVertex:
-				m_shader = glCreateShader (GL_VERTEX_SHADER);
+				m_shader = glCreateShader(GL_VERTEX_SHADER);
 				break;
 			case kFragment:
-				m_shader = glCreateShader (GL_FRAGMENT_SHADER);
+				m_shader = glCreateShader(GL_FRAGMENT_SHADER);
 				break;
 			default:
 				ERROR("Unknown shader type");

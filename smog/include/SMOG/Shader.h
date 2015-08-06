@@ -15,7 +15,10 @@ SMOG_NAMESPACE_ENTER
 			kFragment
 		};
 
+		Shader(Type type = kInvalid);
 		Shader(const std::string& filename, Type type);
+
+		void load(const std::string& filename);
 
 		uint shader() const;
 

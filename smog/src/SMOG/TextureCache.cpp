@@ -1,7 +1,5 @@
 #include <SMOG/TextureCache.h>
 
-#include <stdexcept>
-
 
 SMOG_NAMESPACE_ENTER
 {

@@ -1,10 +1,10 @@
 #include <SMOG/Material.h>
+#include <SMOG/ShaderCache.h>
 #include <SMOG/TextureCache.h>
 
 #include <json/json.h>
 #include <fstream>
 #include <iostream>
-#include <stdexcept>
 
 
 SMOG_NAMESPACE_ENTER
@@ -196,8 +196,8 @@ SMOG_NAMESPACE_ENTER
 		if (!m_vertexShader.empty() && !m_fragmentShader.empty())
 		{
 			m_program.clear();
-			m_program.attach(Shader(m_vertexShader, Shader::kVertex));
-			m_program.attach(Shader(m_fragmentShader, Shader::kFragment));
+			m_program.attach(ShaderCache::Load(m_vertexShader, Shader::kVertex));
+			m_program.attach(ShaderCache::Load(m_fragmentShader, Shader::kFragment));
 			m_program.link();
 		}
 	}
