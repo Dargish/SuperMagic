@@ -2,7 +2,6 @@
 
 #include <SMOG/SMOG.h>
 #include <SMOG/ShaderProgram.h>
-#include <SMOG/TextureFile.h>
 
 #include <map>
 #include <memory>
@@ -72,7 +71,7 @@ SMOG_NAMESPACE_ENTER
 	}
 
 	template<>
-	MaterialValue::Type TypedMaterialValue<TextureFile>::type() const
+	MaterialValue::Type TypedMaterialValue<FileTexture>::type() const
 	{
 		return kTexture;
 	}
@@ -96,7 +95,7 @@ SMOG_NAMESPACE_ENTER
 
 		void set(const std::string& name, float value);
 		void set(const std::string& name, const RGB& value);
-		void set(const std::string& name, const TextureFile& texture);
+		void set(const std::string& name, const FileTexture& texture);
 
 		void apply() const;
 

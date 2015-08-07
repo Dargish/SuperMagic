@@ -7,6 +7,7 @@
 #include <SMOG/TextureCache.h>
 #include <SMOG/Material.h>
 #include <SMOG/RenderScene.h>
+#include <SMOG/FrameBuffer.h>
 #include <SMOG/Primitives/Triangle.h>
 
 // SMSM
@@ -54,7 +55,7 @@ struct RenderableComponent : public Renderable, public Component
 class SFML_TextureLoader : public TextureLoader
 {
 public:
-	virtual bool load(TextureFile& texture) const
+	virtual bool load(FileTexture& texture) const
 	{
 		sf::Image image;
 		if (!image.loadFromFile(texture.filename()))
@@ -64,6 +65,8 @@ public:
 		sf::Vector2u imageSize = image.getSize();
 		texture.setSize(imageSize.x, imageSize.y);
 		texture.setChannels(4);
+		texture.setFormat(Texture::UNSIGNED_BYTE_8);
+		texture.setIsSRGB(true);
 		texture.setData(image.getPixelsPtr());
 		return true;
 	}
@@ -98,6 +101,10 @@ int main()
 	TextureCache::RegisterLoader<SFML_TextureLoader>();
 
 	Scene scene;
+
+	FrameBuffer frameBuffer(800, 600);
+	frameBuffer.addTarget("diffuse", 4, Texture::UNSIGNED_BYTE_8);
+
 
 	for (int i = 0; i < 4; ++i)
 	{
@@ -146,6 +153,8 @@ int main()
 		// Update
 		scene.update(0.0f);
 
+		frameBuffer.bind();
+
 		// Draw
 		for(SceneObjects::iterator sit = scene.begin(); sit != scene.end(); ++sit)
 		{
@@ -155,6 +164,8 @@ int main()
 				cit->as<RenderableComponent>().draw();
 			}
 		}
+		
+		frameBuffer.unbind();
 
 		window.display();
 
@@ -162,6 +173,12 @@ int main()
 		checkGLErrors();
 #endif
 	}
+
+	TextureCache::CleanUp();
+
+#if 0
+	checkGLErrors();
+#endif
 
 	return 0;
 }

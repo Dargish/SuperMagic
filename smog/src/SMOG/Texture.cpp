@@ -10,16 +10,26 @@ SMOG_NAMESPACE_ENTER
 		size_t height /*= 0*/,
 		size_t channels /*= 4*/, 
 		Format format /*= UNSIGNED_BYTE_8*/,
-		bool srgb /*= false*/
+		bool isSRGB /*= false*/
 		) :
 		m_buffer(0),
 		m_width(width),
 		m_height(height),
 		m_channels(channels),
 		m_format(format),
-		m_srgb(srgb)
+		m_isSRGB(isSRGB)
 	{
 		glGenTextures(1, &m_buffer);
+	}
+
+	Texture::~Texture()
+	{
+
+	}
+
+	uint Texture::buffer() const
+	{
+		return m_buffer;
 	}
 
 	void Texture::deleteBuffer()
@@ -35,6 +45,11 @@ SMOG_NAMESPACE_ENTER
 			ERROR("Cannot bind deleted texture");
 		}
 		glBindTexture(GL_TEXTURE_2D, m_buffer);
+	}
+
+	void Texture::unbind() const
+	{
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 	size_t Texture::width() const
@@ -57,9 +72,9 @@ SMOG_NAMESPACE_ENTER
 		return m_format;
 	}
 
-	bool Texture::srgb() const
+	bool Texture::isSRGB() const
 	{
-		return m_srgb;
+		return m_isSRGB;
 	}
 
 
@@ -80,12 +95,12 @@ SMOG_NAMESPACE_ENTER
 		m_format = format;
 	}
 
-	void Texture::setSRGB(bool srgb)
+	void Texture::setIsSRGB(bool isSRGB)
 	{
-		m_srgb = srgb;
+		m_isSRGB = isSRGB;
 	}
 
-	void Texture::setData(const void* data, int level /*= 0*/)
+	void Texture::setData(const void* data /*= NULL*/, int level /*= 0*/)
 	{
 		bind();
 		glTexImage2D(
@@ -115,6 +130,8 @@ SMOG_NAMESPACE_ENTER
 						return GL_R16F;
 					case FLOAT_32:
 						return GL_R32F;
+					case DEPTH_32:
+						return GL_DEPTH_COMPONENT32F;
 				}
 			case 2:
 				switch(m_format)
@@ -125,12 +142,14 @@ SMOG_NAMESPACE_ENTER
 						return GL_RG16F;
 					case FLOAT_32:
 						return GL_RG32F;
+					case DEPTH_32:
+						ERROR("Depth texture must have only one channel");
 				}
 			case 3:
 				switch(m_format)
 				{
 					case UNSIGNED_BYTE_8:
-						if (m_srgb)
+						if (m_isSRGB)
 						{
 							return GL_SRGB8;
 						}
@@ -142,12 +161,14 @@ SMOG_NAMESPACE_ENTER
 						return GL_RGB16F;
 					case FLOAT_32:
 						return GL_RGB32F;
+					case DEPTH_32:
+						ERROR("Depth texture must have only one channel");
 				}
 			case 4:
 				switch(m_format)
 				{
 					case UNSIGNED_BYTE_8:
-						if (m_srgb)
+						if (m_isSRGB)
 						{
 							return GL_SRGB8_ALPHA8;
 						}
@@ -159,6 +180,8 @@ SMOG_NAMESPACE_ENTER
 						return GL_RGBA16F;
 					case FLOAT_32:
 						return GL_RGBA32F;
+					case DEPTH_32:
+						ERROR("Depth texture must have only one channel");
 				}
 			default:
 				ERROR("Unhandled channel count");
@@ -167,6 +190,10 @@ SMOG_NAMESPACE_ENTER
 
 	uint Texture::glFormat() const
 	{
+		if (m_format == DEPTH_32)
+		{
+			return GL_DEPTH_COMPONENT;
+		}
 		switch(m_channels)
 		{
 			case 1:
@@ -192,8 +219,31 @@ SMOG_NAMESPACE_ENTER
 				return GL_SHORT;
 			case FLOAT_32:
 				return GL_FLOAT;
+			case DEPTH_32:
+				return GL_FLOAT;
 			default:
 				ERROR("Unhandled format type");
 		}
+	}
+
+
+	// Depth Texture:
+	DepthTexture::DepthTexture(size_t width /*= 0*/, size_t height /*= 0*/) :
+		Texture(width, height, 1, Texture::DEPTH_32)
+	{
+
+	}
+
+
+	// File Texture:
+	FileTexture::FileTexture(const std::string& filename) :
+		m_filename(filename)
+	{
+
+	}
+
+	const std::string& FileTexture::filename() const
+	{
+		return m_filename;
 	}
 }

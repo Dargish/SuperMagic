@@ -118,7 +118,7 @@ SMOG_NAMESPACE_ENTER
 					break;
 				case MaterialValue::kTexture:
 					value["type"] = "texture";
-					value["filename"] = it->second->as<TextureFile>()->value.filename();
+					value["filename"] = it->second->as<FileTexture>()->value.filename();
 					break;
 				default:
 					break;
@@ -163,9 +163,9 @@ SMOG_NAMESPACE_ENTER
 		m_valueMap[name] = std::unique_ptr<MaterialValue>(new TypedMaterialValue<RGB>(value));
 	}
 
-	void Material::set(const std::string& name, const TextureFile& texture)
+	void Material::set(const std::string& name, const FileTexture& texture)
 	{
-		m_valueMap[name] = std::unique_ptr<MaterialValue>(new TypedMaterialValue<TextureFile>(texture));
+		m_valueMap[name] = std::unique_ptr<MaterialValue>(new TypedMaterialValue<FileTexture>(texture));
 	}
 
 	void Material::apply() const
@@ -182,7 +182,7 @@ SMOG_NAMESPACE_ENTER
 					m_program.set(it->first, it->second->as<RGB>()->value);
 					break;
 				case MaterialValue::kTexture:
-					m_program.set(it->first, it->second->as<TextureFile>()->value);
+					m_program.set(it->first, it->second->as<FileTexture>()->value);
 					break;
 				default:
 					break;
