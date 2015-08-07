@@ -14,7 +14,7 @@ SMOG_NAMESPACE_ENTER
 		return s_instance.get();
 	}
 
-	Texture& TextureCache::load(const std::string& filename)
+	TextureFile& TextureCache::load(const std::string& filename)
 	{
 		if (m_loader.get() == NULL)
 		{
@@ -26,7 +26,7 @@ SMOG_NAMESPACE_ENTER
 			if (found == m_cache.end())
 			{
 				std::pair<Cache::iterator, bool> pair = m_cache.emplace(
-					filename, Texture(filename));
+					filename, TextureFile(filename));
 				if (!m_loader->load(pair.first->second))
 				{
 					ERROR("Failed to load texture " + filename);
@@ -37,7 +37,7 @@ SMOG_NAMESPACE_ENTER
 		}
 	}
 
-	Texture& TextureCache::Load(const std::string& filename)
+	TextureFile& TextureCache::Load(const std::string& filename)
 	{
 		return Instance()->load(filename);
 	}

@@ -54,7 +54,7 @@ struct RenderableComponent : public Renderable, public Component
 class SFML_TextureLoader : public TextureLoader
 {
 public:
-	virtual bool load(Texture& texture) const
+	virtual bool load(TextureFile& texture) const
 	{
 		sf::Image image;
 		if (!image.loadFromFile(texture.filename()))
