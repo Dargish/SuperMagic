@@ -1,0 +1,13 @@
+
+{
+	"fragment_shader" : "install/share/shaders/textured.frag",
+	"values" : 
+	{
+		"tex" : 
+		{
+			"filename" : "install/share/textures/test.png",
+			"type" : "texture"
+		}
+	},
+	"vertex_shader" : "install/share/shaders/textured.vert"
+}

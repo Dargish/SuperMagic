@@ -1,0 +1,8 @@
+rm -rf _build
+rm -rf install
+mkdir _build
+pushd _build
+cmake -DCMAKE_INSTALL_PREFIX=../install ..
+make install -j24
+popd
+rm -rf _build
