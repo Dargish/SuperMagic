@@ -18,6 +18,8 @@ SMOG_NAMESPACE_ENTER
 			DEPTH_32
 		};
 
+		Texture(uint buffer);
+
 		Texture(
 			size_t width = 0, 
 			size_t height = 0, 

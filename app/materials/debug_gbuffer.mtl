@@ -1,0 +1,4 @@
+{
+	"vertex_shader": "install/share/shaders/screenspace.vert",
+	"fragment_shader": "install/share/shaders/debug_gbuffer.frag"
+}

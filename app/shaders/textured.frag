@@ -1,11 +1,11 @@
 #version 400
 
 uniform sampler2D tex;
-
 in vec2 vert_uv;
-out vec4 frag_color;
+
+layout (location = 0) out vec4 g_diffuse;
 
 void main()
 {
-	frag_color = vec4(texture(tex, vert_uv).rgb, 1.0);
+	g_diffuse = texture(tex, vert_uv);
 }

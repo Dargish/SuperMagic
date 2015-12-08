@@ -1,9 +1,9 @@
 #version 400
 
 in vec3 vert_color;
-out vec4 frag_color;
+layout (location = 0) out vec4 g_diffuse;
 
 void main()
 {
-	frag_color = vec4(vert_color, 1.0);
+	g_diffuse = vec4(vert_color, 1.0);
 }

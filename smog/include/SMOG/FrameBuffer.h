@@ -2,6 +2,7 @@
 
 #include <SMOG/SMOG.h>
 #include <SMOG/Texture.h>
+#include <SMOG/ShaderProgram.h>
 
 #include <map>
 
@@ -19,7 +20,11 @@ SMOG_NAMESPACE_ENTER
 
 		uint buffer() const;
 
+		void clear() const;
+
 		void bind() const;
+		void bindForRead() const;
+		void bindTargets(const ShaderProgram& program) const;
 		void unbind() const;
 
 		// Getters
@@ -37,12 +42,14 @@ SMOG_NAMESPACE_ENTER
 		const Texture& target(const std::string& name) const;
 
 	private:
+		void resetBuffer() const;
 		void ensureComplete() const;
 		
 		typedef std::map<std::string, Texture> TargetMap;
 		uint m_fbo;
+		mutable bool m_dirty;
 		size_t m_width, m_height;
-		Texture m_depthTexture;
 		TargetMap m_targetMap;
+		DepthTexture m_depthTexture;
 	};
 }

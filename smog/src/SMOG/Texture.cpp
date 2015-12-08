@@ -5,6 +5,12 @@
 
 SMOG_NAMESPACE_ENTER
 {
+	Texture::Texture(uint buffer) :
+		m_buffer(buffer)
+	{
+
+	}
+
 	Texture::Texture(
 		size_t width /*= 0*/,
 		size_t height /*= 0*/,
